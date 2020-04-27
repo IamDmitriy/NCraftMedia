@@ -23,21 +23,24 @@
             android:id="@+id/txtCreated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="20 august 2019" />
+            android:layout_marginStart="8dp"
+            android:textColor="#999999"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="@+id/imageView3"
+            tools:text="несколько минут назад" />
 
         <TextView
             android:id="@+id/txtContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            tools:text="main content"
-            android:textSize="18sp"
             android:textColor="#000000"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtCreated" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            tools:text="main content" />
 
         <ImageButton
             android:id="@+id/btnLike"
@@ -96,6 +99,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btnShare"
             tools:text="20" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_avatar_48dp" />
+
+        <TextView
+            android:id="@+id/txtAuthor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/txtCreated"
+            tools:text="Author1111111111111111111111111111111111111111111111111111111111111111" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
