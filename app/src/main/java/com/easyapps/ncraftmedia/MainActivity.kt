@@ -20,7 +20,10 @@ class MainActivity : AppCompatActivity() {
             author = "Netology",
             content = "First post in our network!",
             created = 1566302400,
-            videoUrl = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
+            videoUrl = "https://www.youtube.com/watch?v=WhWc3b3KhnY",
+            isEvent = true,
+            address = "Варшавское ш., 1, с. 17. Бизнес-центр W Plaza-2"//,
+            //location = Location(55.703810, 37.623851)
         )
 
         txtContent.text = post.content
@@ -55,6 +58,38 @@ class MainActivity : AppCompatActivity() {
             System.currentTimeMillis() / 1000 - post.created
         )
 
+        if (post.videoUrl != "") {
+            imgVideo.setOnClickListener {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_VIEW
+                    data = Uri.parse(post.videoUrl)
+                }
+
+                startActivity(intent)
+            }
+        } else {
+            imgVideo.visibility = View.GONE
+        }
+
+        if (post.isEvent) {
+            btnLocation.visibility = View.VISIBLE
+
+            btnLocation.setOnClickListener {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_VIEW
+                    data = if (post.address != "") {
+                        Uri.parse("geo:?q=${post.address}")
+                    } else {
+                        Uri.parse("geo:${post.location.lat},${post.location.lon}")
+                    }
+                }
+
+                startActivity(intent)
+            }
+        } else {
+            btnLocation.visibility = View.GONE
+        }
+
         btnLike.setOnClickListener {
             post.likedByMe = !post.likedByMe
 
@@ -78,19 +113,6 @@ class MainActivity : AppCompatActivity() {
                 txtCountLikes.visibility = View.VISIBLE
             }
 
-        }
-
-        if (post.videoUrl != "") {
-            imgVideo.setOnClickListener {
-                val intent = Intent().apply {
-                    action = Intent.ACTION_VIEW
-                    data = Uri.parse(post.videoUrl)
-                }
-
-                startActivity(intent)
-            }
-        } else {
-            imgVideo.visibility = View.GONE
         }
     }
 
