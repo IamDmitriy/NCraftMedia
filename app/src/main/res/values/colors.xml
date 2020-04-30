@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="activeText">#FF0008</color>
+    <color name="regularText">#999999</color>
 </resources>

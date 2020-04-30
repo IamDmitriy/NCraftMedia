@@ -26,11 +26,6 @@ class MainActivity : AppCompatActivity() {
         txtCountComments.text = post.countComments.toString()
         txtCountShares.text = post.countShares.toString()
 
-        if (post.likedByMe) {
-            btnLike.setImageResource(R.drawable.ic_favorite_active_24dp)
-            txtCountLikes.setTextColor(ContextCompat.getColor(this, R.color.activeText))
-        }
-
         if (post.commentedByMe) {
             btnComment.setImageResource(R.drawable.ic_comment_active_24dp)
             txtCountComments.setTextColor(ContextCompat.getColor(this, R.color.activeText))
@@ -56,6 +51,31 @@ class MainActivity : AppCompatActivity() {
         txtCreated.text = publishedAgoInSecondsToTimeInWords(
             System.currentTimeMillis() / 1000 - post.created
         )
+
+        btnLike.setOnClickListener {
+            post.likedByMe = !post.likedByMe
+
+            if (post.likedByMe) {
+                btnLike.setImageResource(R.drawable.ic_favorite_active_24dp)
+                txtCountLikes.setTextColor(ContextCompat.getColor(this, R.color.activeText))
+
+                post.countLikes++
+                txtCountLikes.text = post.countLikes.toString()
+            } else {
+                btnLike.setImageResource(R.drawable.ic_favorite_inactive_24dp)
+                txtCountLikes.setTextColor(ContextCompat.getColor(this, R.color.regularText))
+
+                post.countLikes--
+                txtCountLikes.text = post.countLikes.toString()
+            }
+
+            if (post.countLikes == 0) {
+                txtCountLikes.visibility = View.INVISIBLE
+            } else {
+                txtCountLikes.visibility = View.VISIBLE
+            }
+
+        }
 
     }
 
