@@ -3,6 +3,7 @@ package com.easyapps.ncraftmedia
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.easyapps.ncraftmedia.dto.Post
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -27,17 +28,17 @@ class MainActivity : AppCompatActivity() {
 
         if (post.likedByMe) {
             btnLike.setImageResource(R.drawable.ic_favorite_active_24dp)
-            txtCountLikes.setTextColor(resources.getColor(R.color.activeText))
+            txtCountLikes.setTextColor(ContextCompat.getColor(this, R.color.activeText))
         }
 
         if (post.commentedByMe) {
             btnComment.setImageResource(R.drawable.ic_comment_active_24dp)
-            txtCountComments.setTextColor(resources.getColor(R.color.activeText))
+            txtCountComments.setTextColor(ContextCompat.getColor(this, R.color.activeText))
         }
 
         if (post.sharedByMe) {
             btnShare.setImageResource(R.drawable.ic_share_active_24dp)
-            txtCountShares.setTextColor(resources.getColor(R.color.activeText))
+            txtCountShares.setTextColor(ContextCompat.getColor(this, R.color.activeText))
         }
 
         if (post.countLikes == 0) {
