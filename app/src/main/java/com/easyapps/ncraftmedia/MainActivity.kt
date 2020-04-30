@@ -1,5 +1,7 @@
 package com.easyapps.ncraftmedia
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +19,8 @@ class MainActivity : AppCompatActivity() {
             id = 1,
             author = "Netology",
             content = "First post in our network!",
-            created = 1566302400
+            created = 1566302400,
+            videoUrl = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
         )
 
         txtContent.text = post.content
@@ -77,6 +80,18 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        if (post.videoUrl != "") {
+            imgVideo.setOnClickListener {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_VIEW
+                    data = Uri.parse(post.videoUrl)
+                }
+
+                startActivity(intent)
+            }
+        } else {
+            imgVideo.visibility = View.GONE
+        }
     }
 
     private fun publishedAgoInSecondsToTimeInWords(publishedAgo: Long): String =

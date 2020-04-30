@@ -10,5 +10,6 @@ data class Post(
     val commentedByMe: Boolean = false,
     val countComments: Int = 0,
     val sharedByMe: Boolean = false,
-    val countShares: Int = 0
+    val countShares: Int = 0,
+    val videoUrl: String = ""
 )
