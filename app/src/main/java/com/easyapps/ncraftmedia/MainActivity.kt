@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
             content = "First post in our network!",
             created = 1566302400,
             videoUrl = "https://www.youtube.com/watch?v=WhWc3b3KhnY",
-            isEvent = true,
+            type = PostType.EVENT,
             address = "Варшавское ш., 1, с. 17. Бизнес-центр W Plaza-2"//,
             //location = Location(55.703810, 37.623851)
         )
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             imgVideo.visibility = View.GONE
         }
 
-        if (post.isEvent) {
+        if (post.type == PostType.EVENT) {
             btnLocation.visibility = View.VISIBLE
 
             btnLocation.setOnClickListener {

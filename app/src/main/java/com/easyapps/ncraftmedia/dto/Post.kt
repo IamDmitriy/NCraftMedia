@@ -1,6 +1,7 @@
 package com.easyapps.ncraftmedia.dto
 
 import com.easyapps.ncraftmedia.Location
+import com.easyapps.ncraftmedia.PostType
 
 data class Post(
     val id: Long,
@@ -14,7 +15,7 @@ data class Post(
     val sharedByMe: Boolean = false,
     val countShares: Int = 0,
     val videoUrl: String = "",
-    val isEvent: Boolean = false,
+    val type: PostType = PostType.BASE,
     val address: String = "",
     val location: Location = Location(0.0, 0.0)
 )
