@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    android:background="#ffffff"
+    android:padding="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <TextView
+        android:id="@+id/tvCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="#999999"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/imgvAvatar"
+        app:layout_constraintTop_toTopOf="@+id/imgvAvatar"
+        tools:text="несколько минут назад" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgvVideo"
+        tools:text="main content" />
+
+    <ImageButton
+        android:id="@+id/btnLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_favorite_inactive_24dp"
+        app:layout_constraintEnd_toStartOf="@+id/tvCountLikes"
+        app:layout_constraintTop_toBottomOf="@+id/tvContent" />
+
+    <TextView
+        android:id="@+id/tvCountLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnLike"
+        app:layout_constraintEnd_toStartOf="@+id/btnComment"
+        app:layout_constraintTop_toTopOf="@+id/btnLike"
+        tools:text="20" />
+
+    <ImageView
+        android:id="@+id/btnComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/tvCountComments"
+        app:layout_constraintTop_toTopOf="@+id/btnLike"
+        app:srcCompat="@drawable/ic_comment_inactive_24dp" />
+
+    <TextView
+        android:id="@+id/tvCountComments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnComment"
+        app:layout_constraintEnd_toStartOf="@+id/btnShare"
+        app:layout_constraintTop_toTopOf="@+id/btnComment"
+        tools:text="20" />
+
+    <ImageView
+        android:id="@+id/btnShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/tvCountShares"
+        app:layout_constraintTop_toTopOf="@+id/btnComment"
+        app:srcCompat="@drawable/ic_share_inactive_24dp" />
+
+    <TextView
+        android:id="@+id/tvCountShares"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/btnShare"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnShare"
+        tools:text="20" />
+
+    <ImageView
+        android:id="@+id/imgvAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_avatar_48dp" />
+
+    <TextView
+        android:id="@+id/tvAuthor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgvAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreated"
+        tools:text="Author1111111111111111111111111111111111111111111111111111111111111111" />
+
+    <ImageView
+
+        android:id="@+id/imgvVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgvAvatar"
+        app:srcCompat="@drawable/ic_ondemand_video_black_24dp" />
+
+    <ImageView
+        android:id="@+id/btnLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnLike"
+        app:layout_constraintTop_toTopOf="@+id/btnLike"
+        app:srcCompat="@drawable/ic_location_on__24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
