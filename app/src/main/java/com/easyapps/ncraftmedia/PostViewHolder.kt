@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.easyapps.ncraftmedia.dto.Post
 import kotlinx.android.synthetic.main.post_card.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bind(post: Post) {
@@ -49,8 +51,8 @@ class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 tvCountShares.visibility = View.INVISIBLE
             }
 
-            tvCreated.text = publishedAgoInSecondsToTimeInWords(
-                System.currentTimeMillis() / 1000 - post.created
+            tvCreated.text = publishedAgoInMillisToTimeInWords(
+                System.currentTimeMillis() - post.created
             )
 
             if (post.videoUrl != "") {
@@ -120,11 +122,31 @@ class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
             }
 
+            btnShare.setOnClickListener {
+                val formattedCreationDate: String = SimpleDateFormat(
+                    "dd.MM.yyyy HH:mm",
+                    Locale("ru")
+                ).format(Date(post.created))
+
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(
+                        Intent.EXTRA_TEXT, """
+                        ${post.author} ($formattedCreationDate)
+                        
+                        ${post.content}
+                    """.trimIndent()
+                    )
+                    type = "text/plain"
+                }
+
+                this.context.startActivity(intent)
+            }
         }
     }
 
-    private fun publishedAgoInSecondsToTimeInWords(publishedAgo: Long): String =
-        when (publishedAgo) {
+    private fun publishedAgoInMillisToTimeInWords(publishedAgo: Long): String =
+        when (publishedAgo / 1000) {
             in 0..30 -> "менее минуты назад"
             in 31..90 -> "минуту назад"
             in 91..360 -> "6 минут назад"

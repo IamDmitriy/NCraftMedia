@@ -23,12 +23,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun generateContent(): List<Post> {
+    private fun generateContent(): List<Post> {
         val post1 = Post(
             id = 1,
             author = "Netology",
             content = "First post in our network!",
-            created = 1566302400,
+            created = 1588712400000,
             videoUrl = "https://www.youtube.com/watch?v=WhWc3b3KhnY",
             type = PostType.EVENT,
             address = "Варшавское ш., 1, с. 17. Бизнес-центр W Plaza-2"//,
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             id = 2,
             author = "Netology",
             content = "First post in our network!",
-            created = 1566302400,
+            created = 1583010000000,
             videoUrl = "https://www.youtube.com/watch?v=WhWc3b3KhnY",
             type = PostType.EVENT,
             location = Location(55.703810, 37.623851)
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             id = 1,
             author = "Netology",
             content = "First post in our network!",
-            created = 1566302400,
+            created = 1551819600000,
             videoUrl = "https://www.youtube.com/watch?v=WhWc3b3KhnY",
             type = PostType.BASE
         )
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             id = 1,
             author = "Netology",
             content = "First post in our network!",
-            created = 1566302400,
+            created = 1520283600000,
             videoUrl = "https://www.youtube.com/watch?v=WhWc3b3KhnY",
             type = PostType.EVENT,
             address = "Варшавское ш., 1, с. 17. Бизнес-центр W Plaza-2"//,
