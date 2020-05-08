@@ -14,8 +14,10 @@ data class Post(
     val countComments: Int = 0,
     val sharedByMe: Boolean = false,
     val countShares: Int = 0,
-    val videoUrl: String = "",
-    val type: PostType = PostType.BASE,
-    val address: String = "",
-    val location: Location = Location(0.0, 0.0)
+    val videoUrl: String? = null,
+    val type: PostType = PostType.POST,
+    val source: Post? = null,
+    val address: String? = null,
+    val location: Location? = null,
+    val link: String? = null
 )

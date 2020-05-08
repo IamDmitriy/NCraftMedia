@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NCraftMedia</string>
+    <string name="advertisement">Рекламная запись</string>
+    <string name="follow">Перейти</string>
 </resources>

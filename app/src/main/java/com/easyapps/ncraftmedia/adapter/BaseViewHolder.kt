@@ -1,18 +1,33 @@
-package com.easyapps.ncraftmedia
+package com.easyapps.ncraftmedia.adapter
 
 import android.content.Intent
-import android.net.Uri
 import android.view.View
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.easyapps.ncraftmedia.R
 import com.easyapps.ncraftmedia.dto.Post
-import kotlinx.android.synthetic.main.post_card.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    fun bind(post: Post) {
+abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
+    RecyclerView.ViewHolder(view) {
+
+    abstract fun bind(post: Post)
+
+    fun initView(post: Post) {
         with(itemView) {
+            val tvContent = this.findViewById<TextView>(R.id.tvContent)
+            val tvAuthor = this.findViewById<TextView>(R.id.tvAuthor)
+            val tvCountLikes = this.findViewById<TextView>(R.id.tvCountLikes)
+            val tvCountComments = this.findViewById<TextView>(R.id.tvCountComments)
+            val tvCountShares = this.findViewById<TextView>(R.id.tvCountShares)
+            val tvCreated = this.findViewById<TextView>(R.id.tvCreated)
+            val btnComment = this.findViewById<ImageButton>(R.id.btnComment)
+            val btnLike = this.findViewById<ImageButton>(R.id.btnLike)
+            val btnShare = this.findViewById<ImageButton>(R.id.btnShare)
+
             tvContent.text = post.content
             tvAuthor.text = post.author
             tvCountLikes.text = post.countLikes.toString()
@@ -27,6 +42,14 @@ class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                         R.color.activeText
                     )
                 )
+            } else {
+                btnComment.setImageResource(R.drawable.ic_comment_inactive_24dp)
+                tvCountComments.setTextColor(
+                    ContextCompat.getColor(
+                        this.context,
+                        R.color.regularText
+                    )
+                )
             }
 
             if (post.sharedByMe) {
@@ -37,55 +60,55 @@ class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                         R.color.activeText
                     )
                 )
+            } else {
+                btnShare.setImageResource(R.drawable.ic_share_inactive_24dp)
+                tvCountShares.setTextColor(
+                    ContextCompat.getColor(
+                        this.context,
+                        R.color.regularText
+                    )
+                )
+            }
+
+            if (post.likedByMe) {
+                btnLike.setImageResource(R.drawable.ic_favorite_active_24dp)
+                tvCountLikes.setTextColor(
+                    ContextCompat.getColor(
+                        this.context,
+                        R.color.activeText
+                    )
+                )
+            } else {
+                btnLike.setImageResource(R.drawable.ic_favorite_inactive_24dp)
+                tvCountLikes.setTextColor(
+                    ContextCompat.getColor(
+                        this.context,
+                        R.color.regularText
+                    )
+                )
             }
 
             if (post.countLikes == 0) {
                 tvCountLikes.visibility = View.INVISIBLE
+            } else {
+                tvCountLikes.visibility = View.VISIBLE
             }
 
             if (post.countComments == 0) {
                 tvCountComments.visibility = View.INVISIBLE
+            } else {
+                tvCountComments.visibility = View.VISIBLE
             }
 
             if (post.countShares == 0) {
                 tvCountShares.visibility = View.INVISIBLE
+            } else {
+                tvCountShares.visibility = View.VISIBLE
             }
 
             tvCreated.text = publishedAgoInMillisToTimeInWords(
                 System.currentTimeMillis() - post.created
             )
-
-            if (post.videoUrl != "") {
-                imgvVideo.setOnClickListener {
-                    val intent = Intent().apply {
-                        action = Intent.ACTION_VIEW
-                        data = Uri.parse(post.videoUrl)
-                    }
-
-                    this.context.startActivity(intent)
-                }
-            } else {
-                imgvVideo.visibility = View.GONE
-            }
-
-            if (post.type == PostType.EVENT) {
-                btnLocation.visibility = View.VISIBLE
-
-                btnLocation.setOnClickListener {
-                    val intent = Intent().apply {
-                        action = Intent.ACTION_VIEW
-                        data = if (post.address != "") {
-                            Uri.parse("geo:?q=${post.address}")
-                        } else {
-                            Uri.parse("geo:${post.location.lat},${post.location.lon}")
-                        }
-                    }
-
-                    this.context.startActivity(intent)
-                }
-            } else {
-                btnLocation.visibility = View.GONE
-            }
 
             btnLike.setOnClickListener {
                 post.likedByMe = !post.likedByMe
@@ -119,7 +142,7 @@ class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 } else {
                     tvCountLikes.visibility = View.VISIBLE
                 }
-
+                postAdapter.notifyItemChanged(adapterPosition)
             }
 
             btnShare.setOnClickListener {
