@@ -129,4 +129,12 @@
         app:layout_constraintTop_toBottomOf="@+id/imgvAvatar"
         app:srcCompat="@drawable/ic_ondemand_video_black_24dp" />
 
+    <ImageButton
+        android:id="@+id/btnHide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_visibility_off_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

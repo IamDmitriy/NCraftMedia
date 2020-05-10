@@ -44,6 +44,8 @@ class RepostViewHolder(postAdapter: PostAdapter, view: View) :
                 )
             }
 
+            repostContainer.removeAllViews()
+
             repostedViewHolder.bind(post.source)
 
             repostContainer.addView(repostedViewHolder.itemView)
@@ -53,6 +55,8 @@ class RepostViewHolder(postAdapter: PostAdapter, view: View) :
             repostedViewHolder.itemView.findViewById<ImageButton>(R.id.btnShare).visibility =
                 View.GONE
             repostedViewHolder.itemView.findViewById<ImageButton>(R.id.btnComment).visibility =
+                View.GONE
+            repostedViewHolder.itemView.findViewById<ImageButton>(R.id.btnHide).visibility =
                 View.GONE
             repostedViewHolder.itemView.findViewById<TextView>(R.id.tvCountLikes).visibility =
                 View.GONE

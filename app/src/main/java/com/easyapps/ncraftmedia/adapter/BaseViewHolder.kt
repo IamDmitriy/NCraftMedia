@@ -1,6 +1,7 @@
 package com.easyapps.ncraftmedia.adapter
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -11,8 +12,11 @@ import com.easyapps.ncraftmedia.dto.Post
 import java.text.SimpleDateFormat
 import java.util.*
 
+const val LOG_TAG = "MyLog"
+
 abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
     RecyclerView.ViewHolder(view) {
+
 
     abstract fun bind(post: Post)
 
@@ -27,6 +31,7 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
             val btnComment = this.findViewById<ImageButton>(R.id.btnComment)
             val btnLike = this.findViewById<ImageButton>(R.id.btnLike)
             val btnShare = this.findViewById<ImageButton>(R.id.btnShare)
+            val btnHide = this.findViewById<ImageButton>(R.id.btnHide)
 
             tvContent.text = post.content
             tvAuthor.text = post.author
@@ -164,6 +169,13 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
                 }
 
                 this.context.startActivity(intent)
+            }
+
+            btnHide.setOnClickListener {
+                Log.d(LOG_TAG, "Скрываем пост с id = ${post.id}")
+                postAdapter.postList = postAdapter.postList.filter {
+                    it.id != post.id
+                }
             }
         }
     }
