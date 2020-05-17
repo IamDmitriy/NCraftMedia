@@ -1,6 +1,7 @@
 package com.easyapps.ncraftmedia
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.easyapps.ncraftmedia.adapter.PostAdapter
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val job = Job()
+    private val requestJob = Job()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +46,12 @@ class MainActivity : AppCompatActivity() {
             adapter = postAdapter
         }
 
-        CoroutineScope(Main + job).launch {
-            postAdapter.postList = withContext(IO + job) {
+        CoroutineScope(Main).launch {
+            progressBar.visibility = View.VISIBLE
+            postAdapter.postList = withContext(IO + requestJob) {
                 client.get<List<Post>>(url)
             }
+            progressBar.visibility = View.GONE
         }
     }
 
