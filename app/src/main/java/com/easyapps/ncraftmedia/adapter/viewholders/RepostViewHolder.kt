@@ -1,17 +1,19 @@
-package com.easyapps.ncraftmedia.adapter
+package com.easyapps.ncraftmedia.adapter.viewholders
 
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
-import android.widget.TextView
-import com.easyapps.ncraftmedia.PostType
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.easyapps.ncraftmedia.R
-import com.easyapps.ncraftmedia.dto.Post
-import kotlinx.android.synthetic.main.post_feed_repost_card.view.*
+import com.easyapps.ncraftmedia.adapter.PostAdapter
+import com.easyapps.ncraftmedia.model.PostModel
+import com.easyapps.ncraftmedia.model.PostType
+import kotlinx.android.synthetic.main.post_card.view.*
+
 
 class RepostViewHolder(postAdapter: PostAdapter, view: View) :
     BaseViewHolder(postAdapter, view) {
-    override fun bind(post: Post) {
+    override fun bind(post: PostModel) {
         with(itemView) {
             initView(post)
             if (post.source == null) {
@@ -24,23 +26,23 @@ class RepostViewHolder(postAdapter: PostAdapter, view: View) :
             val repostedViewHolder = when (post.source.type) {
                 PostType.POST -> PostViewHolder(
                     postAdapter, LayoutInflater.from(context)
-                        .inflate(R.layout.post_feed_post_card, repostContainer, false)
+                        .inflate(R.layout.post_card, repostContainer, false)
                 )
                 PostType.EVENT -> EventViewHolder(
                     postAdapter, LayoutInflater.from(context)
-                        .inflate(R.layout.post_feed_event_card, repostContainer, false)
+                        .inflate(R.layout.post_card, repostContainer, false)
                 )
                 PostType.REPOST -> RepostViewHolder(
                     postAdapter, LayoutInflater.from(context)
-                        .inflate(R.layout.post_feed_repost_card, repostContainer, false)
+                        .inflate(R.layout.post_card, repostContainer, false)
                 )
                 PostType.VIDEO -> VideoViewHolder(
                     postAdapter, LayoutInflater.from(context)
-                        .inflate(R.layout.post_feed_video_card, repostContainer, false)
+                        .inflate(R.layout.post_card, repostContainer, false)
                 )
                 PostType.ADVERTISEMENT -> AdvertisementViewHolder(
                     postAdapter, LayoutInflater.from(context)
-                        .inflate(R.layout.post_feed_advertisement_card, repostContainer, false)
+                        .inflate(R.layout.post_card, repostContainer, false)
                 )
             }
 
@@ -50,19 +52,12 @@ class RepostViewHolder(postAdapter: PostAdapter, view: View) :
 
             repostContainer.addView(repostedViewHolder.itemView)
 
-            repostedViewHolder.itemView.findViewById<ImageButton>(R.id.btnLike).visibility =
+            repostedViewHolder.itemView.findViewById<ConstraintLayout>(R.id.bottomBar).visibility =
                 View.GONE
-            repostedViewHolder.itemView.findViewById<ImageButton>(R.id.btnShare).visibility =
-                View.GONE
-            repostedViewHolder.itemView.findViewById<ImageButton>(R.id.btnComment).visibility =
-                View.GONE
+
             repostedViewHolder.itemView.findViewById<ImageButton>(R.id.btnHide).visibility =
                 View.GONE
-            repostedViewHolder.itemView.findViewById<TextView>(R.id.tvCountLikes).visibility =
-                View.GONE
-            repostedViewHolder.itemView.findViewById<TextView>(R.id.tvCountComments).visibility =
-                View.GONE
-            repostedViewHolder.itemView.findViewById<TextView>(R.id.tvCountShares).visibility =
+            repostedViewHolder.itemView.findViewById<ImageButton>(R.id.btnShare).visibility =
                 View.GONE
 
         }

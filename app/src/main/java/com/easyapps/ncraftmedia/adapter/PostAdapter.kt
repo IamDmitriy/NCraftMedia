@@ -3,9 +3,11 @@ package com.easyapps.ncraftmedia.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.easyapps.ncraftmedia.PostType
 import com.easyapps.ncraftmedia.R
-import com.easyapps.ncraftmedia.dto.Post
+import com.easyapps.ncraftmedia.adapter.viewholders.*
+import com.easyapps.ncraftmedia.model.PostModel
+import com.easyapps.ncraftmedia.model.PostType
+import com.easyapps.ncraftmedia.viewmodel.MainViewModel
 
 const val VIEW_TYPE_POST = 1
 const val VIEW_TYPE_EVENT = 2
@@ -22,9 +24,10 @@ fun viewTypeToPostType(viewType: Int): PostType = when (viewType) {
     else -> TODO("unknown view type")
 }
 
-class PostAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PostAdapter(val viewModel: MainViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var postList: List<Post> = emptyList()
+
+    var postList: List<PostModel> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -34,23 +37,23 @@ class PostAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (viewTypeToPostType(viewType)) {
             PostType.POST -> PostViewHolder(
                 this, LayoutInflater.from(parent.context)
-                    .inflate(R.layout.post_feed_post_card, parent, false)
+                    .inflate(R.layout.post_card, parent, false)
             )
             PostType.EVENT -> EventViewHolder(
                 this, LayoutInflater.from(parent.context)
-                    .inflate(R.layout.post_feed_event_card, parent, false)
+                    .inflate(R.layout.post_card, parent, false)
             )
             PostType.REPOST -> RepostViewHolder(
                 this, LayoutInflater.from(parent.context)
-                    .inflate(R.layout.post_feed_repost_card, parent, false)
+                    .inflate(R.layout.post_card, parent, false)
             )
             PostType.VIDEO -> VideoViewHolder(
                 this, LayoutInflater.from(parent.context)
-                    .inflate(R.layout.post_feed_video_card, parent, false)
+                    .inflate(R.layout.post_card, parent, false)
             )
             PostType.ADVERTISEMENT -> AdvertisementViewHolder(
                 this, LayoutInflater.from(parent.context)
-                    .inflate(R.layout.post_feed_advertisement_card, parent, false)
+                    .inflate(R.layout.post_card, parent, false)
             )
         }
 

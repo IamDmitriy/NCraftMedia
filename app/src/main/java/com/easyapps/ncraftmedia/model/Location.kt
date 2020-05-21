@@ -1,4 +1,4 @@
-package com.easyapps.ncraftmedia
+package com.easyapps.ncraftmedia.model
 
 class Location(
     val lat: Double,

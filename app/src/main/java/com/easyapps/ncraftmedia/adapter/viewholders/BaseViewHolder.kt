@@ -1,4 +1,4 @@
-package com.easyapps.ncraftmedia.adapter
+package com.easyapps.ncraftmedia.adapter.viewholders
 
 import android.content.Intent
 import android.util.Log
@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.easyapps.ncraftmedia.R
-import com.easyapps.ncraftmedia.dto.Post
+import com.easyapps.ncraftmedia.adapter.PostAdapter
+import com.easyapps.ncraftmedia.model.PostModel
+import kotlinx.coroutines.Job
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,11 +18,11 @@ const val LOG_TAG = "MyLog"
 
 abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
     RecyclerView.ViewHolder(view) {
+    private val likeJob = Job()
 
+    abstract fun bind(post: PostModel)
 
-    abstract fun bind(post: Post)
-
-    fun initView(post: Post) {
+    fun initView(post: PostModel) {
         with(itemView) {
             val tvContent = this.findViewById<TextView>(R.id.tvContent)
             val tvAuthor = this.findViewById<TextView>(R.id.tvAuthor)
@@ -32,6 +34,7 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
             val btnLike = this.findViewById<ImageButton>(R.id.btnLike)
             val btnShare = this.findViewById<ImageButton>(R.id.btnShare)
             val btnHide = this.findViewById<ImageButton>(R.id.btnHide)
+            val btnRepost = this.findViewById<ImageButton>(R.id.btnRepost)
 
             tvContent.text = post.content
             tvAuthor.text = post.author
@@ -56,9 +59,9 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
                     )
                 )
             }
-
+            //TODO изменить на repostedByMe
             if (post.sharedByMe) {
-                btnShare.setImageResource(R.drawable.ic_share_active_24dp)
+                btnRepost.setImageResource(R.drawable.ic_repost_active_24dp)
                 tvCountShares.setTextColor(
                     ContextCompat.getColor(
                         this.context,
@@ -66,7 +69,7 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
                     )
                 )
             } else {
-                btnShare.setImageResource(R.drawable.ic_share_inactive_24dp)
+                btnRepost.setImageResource(R.drawable.ic_repost_inactive_24dp)
                 tvCountShares.setTextColor(
                     ContextCompat.getColor(
                         this.context,
@@ -116,38 +119,8 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
             )
 
             btnLike.setOnClickListener {
-                post.likedByMe = !post.likedByMe
 
-                if (post.likedByMe) {
-                    btnLike.setImageResource(R.drawable.ic_favorite_active_24dp)
-                    tvCountLikes.setTextColor(
-                        ContextCompat.getColor(
-                            this.context,
-                            R.color.activeText
-                        )
-                    )
-
-                    post.countLikes++
-                    tvCountLikes.text = post.countLikes.toString()
-                } else {
-                    btnLike.setImageResource(R.drawable.ic_favorite_inactive_24dp)
-                    tvCountLikes.setTextColor(
-                        ContextCompat.getColor(
-                            this.context,
-                            R.color.regularText
-                        )
-                    )
-
-                    post.countLikes--
-                    tvCountLikes.text = post.countLikes.toString()
-                }
-
-                if (post.countLikes == 0) {
-                    tvCountLikes.visibility = View.INVISIBLE
-                } else {
-                    tvCountLikes.visibility = View.VISIBLE
-                }
-                postAdapter.notifyItemChanged(adapterPosition)
+                postAdapter.viewModel.likeByMe(post)
             }
 
             btnShare.setOnClickListener {
@@ -176,6 +149,10 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
                 postAdapter.postList = postAdapter.postList.filter {
                     it.id != post.id
                 }
+            }
+
+            btnRepost.setOnClickListener {
+                TODO()
             }
         }
     }

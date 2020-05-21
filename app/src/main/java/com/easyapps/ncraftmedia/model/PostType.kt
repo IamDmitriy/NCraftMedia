@@ -1,4 +1,4 @@
-package com.easyapps.ncraftmedia
+package com.easyapps.ncraftmedia.model
 
 enum class PostType {
     POST,

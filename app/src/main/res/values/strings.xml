@@ -2,4 +2,6 @@
     <string name="app_name">NCraftMedia</string>
     <string name="advertisement">Рекламная запись</string>
     <string name="follow">Перейти</string>
+    <string name="message_no_internet_connection">Отсутствует подключение к Интернету</string>
+    <string name="repeat">повторить</string>
 </resources>

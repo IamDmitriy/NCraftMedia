@@ -1,15 +1,19 @@
-package com.easyapps.ncraftmedia.adapter
+package com.easyapps.ncraftmedia.adapter.viewholders
 
 import android.content.Intent
 import android.net.Uri
 import android.view.View
-import com.easyapps.ncraftmedia.dto.Post
-import kotlinx.android.synthetic.main.post_feed_video_card.view.*
+import com.easyapps.ncraftmedia.adapter.PostAdapter
+import com.easyapps.ncraftmedia.model.PostModel
+import kotlinx.android.synthetic.main.post_card.view.*
+
 
 class VideoViewHolder(postAdapter: PostAdapter, view: View) : BaseViewHolder(postAdapter, view) {
-    override fun bind(post: Post) {
+    override fun bind(post: PostModel) {
         with(itemView) {
             initView(post)
+
+            imgvVideo.visibility = View.VISIBLE
 
             if (post.videoUrl != null) {
                 imgvVideo.setOnClickListener {

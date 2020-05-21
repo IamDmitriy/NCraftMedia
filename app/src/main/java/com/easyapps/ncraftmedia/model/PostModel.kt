@@ -1,22 +1,19 @@
-package com.easyapps.ncraftmedia.dto
+package com.easyapps.ncraftmedia.model
 
-import com.easyapps.ncraftmedia.Location
-import com.easyapps.ncraftmedia.PostType
-
-data class Post(
+data class PostModel(
     val id: Long,
     val author: String,
     val content: String,
     val created: Long,
-    var likedByMe: Boolean = false,
-    var countLikes: Int = 10,
+    val likedByMe: Boolean = false,
+    val countLikes: Int = 10,
     val commentedByMe: Boolean = false,
     val countComments: Int = 0,
     val sharedByMe: Boolean = false,
     val countShares: Int = 0,
     val videoUrl: String? = null,
     val type: PostType = PostType.POST,
-    val source: Post? = null,
+    val source: PostModel? = null,
     val address: String? = null,
     val location: Location? = null,
     val link: String? = null
