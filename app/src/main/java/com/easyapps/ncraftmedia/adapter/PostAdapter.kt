@@ -7,7 +7,7 @@ import com.easyapps.ncraftmedia.R
 import com.easyapps.ncraftmedia.adapter.viewholders.*
 import com.easyapps.ncraftmedia.model.PostModel
 import com.easyapps.ncraftmedia.model.PostType
-import com.easyapps.ncraftmedia.viewmodel.MainViewModel
+import com.easyapps.ncraftmedia.viewmodel.FeedViewModel
 
 const val VIEW_TYPE_POST = 1
 const val VIEW_TYPE_EVENT = 2
@@ -24,7 +24,7 @@ fun viewTypeToPostType(viewType: Int): PostType = when (viewType) {
     else -> TODO("unknown view type")
 }
 
-class PostAdapter(val viewModel: MainViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PostAdapter(val viewModel: FeedViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     var postList: List<PostModel> = emptyList()

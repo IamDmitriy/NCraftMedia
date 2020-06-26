@@ -1,7 +1,7 @@
 package com.easyapps.ncraftmedia.model
 
 data class PostModel(
-    val id: Long,
+    val id: Long = -1,
     val author: String,
     val content: String,
     val created: Long,

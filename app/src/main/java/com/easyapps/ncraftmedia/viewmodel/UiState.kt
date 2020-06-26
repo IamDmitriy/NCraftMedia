@@ -8,7 +8,9 @@ sealed class UiState {
 
     object EmptyProgress : UiState()
 
-    object Error : UiState()
+    object InternetAccessError : UiState()
+
+    object AuthError : UiState()
 
     data class Success(val posts: List<PostModel>) : UiState()
 }

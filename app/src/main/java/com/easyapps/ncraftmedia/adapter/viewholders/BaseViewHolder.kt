@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.easyapps.ncraftmedia.R
 import com.easyapps.ncraftmedia.adapter.PostAdapter
 import com.easyapps.ncraftmedia.model.PostModel
-import kotlinx.coroutines.Job
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,82 +17,50 @@ const val LOG_TAG = "MyLog"
 
 abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
     RecyclerView.ViewHolder(view) {
-    private val likeJob = Job()
+    private val tvContent = itemView.findViewById<TextView>(R.id.tvContent)!!
+    private val tvAuthor = itemView.findViewById<TextView>(R.id.tvAuthor)
+    private val tvCountLikes = itemView.findViewById<TextView>(R.id.tvCountLikes)
+    private val tvCountComments = itemView.findViewById<TextView>(R.id.tvCountComments)
+    private val tvCountShares = itemView.findViewById<TextView>(R.id.tvCountShares)
+    private val tvCreated = itemView.findViewById<TextView>(R.id.tvCreated)
+    private val btnComment = itemView.findViewById<ImageButton>(R.id.btnComment)
+    private val btnLike = itemView.findViewById<ImageButton>(R.id.btnLike)
+    private val btnShare = itemView.findViewById<ImageButton>(R.id.btnShare)
+    private val btnHide = itemView.findViewById<ImageButton>(R.id.btnHide)
+    private val btnRepost = itemView.findViewById<ImageButton>(R.id.btnRepost)
 
     abstract fun bind(post: PostModel)
 
     fun initView(post: PostModel) {
         with(itemView) {
-            val tvContent = this.findViewById<TextView>(R.id.tvContent)
-            val tvAuthor = this.findViewById<TextView>(R.id.tvAuthor)
-            val tvCountLikes = this.findViewById<TextView>(R.id.tvCountLikes)
-            val tvCountComments = this.findViewById<TextView>(R.id.tvCountComments)
-            val tvCountShares = this.findViewById<TextView>(R.id.tvCountShares)
-            val tvCreated = this.findViewById<TextView>(R.id.tvCreated)
-            val btnComment = this.findViewById<ImageButton>(R.id.btnComment)
-            val btnLike = this.findViewById<ImageButton>(R.id.btnLike)
-            val btnShare = this.findViewById<ImageButton>(R.id.btnShare)
-            val btnHide = this.findViewById<ImageButton>(R.id.btnHide)
-            val btnRepost = this.findViewById<ImageButton>(R.id.btnRepost)
-
             tvContent.text = post.content
             tvAuthor.text = post.author
             tvCountLikes.text = post.countLikes.toString()
             tvCountComments.text = post.countComments.toString()
             tvCountShares.text = post.countShares.toString()
 
-            if (post.commentedByMe) {
-                btnComment.setImageResource(R.drawable.ic_comment_active_24dp)
-                tvCountComments.setTextColor(
-                    ContextCompat.getColor(
-                        this.context,
-                        R.color.activeText
-                    )
-                )
+            //TODO реализовать проверку авторства из списка для какого либо действия
+            // и установку флагов someActionByMe
+            val commentedByMe = post.commentedByMe
+            val repostedByMe = post.sharedByMe
+            val likedByMe = post.likedByMe
+
+            if (commentedByMe) {
+                setActiveCommentedByMe()
             } else {
-                btnComment.setImageResource(R.drawable.ic_comment_inactive_24dp)
-                tvCountComments.setTextColor(
-                    ContextCompat.getColor(
-                        this.context,
-                        R.color.regularText
-                    )
-                )
+                setInactiveCommentedByMe()
             }
             //TODO изменить на repostedByMe
-            if (post.sharedByMe) {
-                btnRepost.setImageResource(R.drawable.ic_repost_active_24dp)
-                tvCountShares.setTextColor(
-                    ContextCompat.getColor(
-                        this.context,
-                        R.color.activeText
-                    )
-                )
+            if (repostedByMe) {
+                setActiveRepostedByMe()
             } else {
-                btnRepost.setImageResource(R.drawable.ic_repost_inactive_24dp)
-                tvCountShares.setTextColor(
-                    ContextCompat.getColor(
-                        this.context,
-                        R.color.regularText
-                    )
-                )
+                setInactiveRepostedByMe()
             }
 
-            if (post.likedByMe) {
-                btnLike.setImageResource(R.drawable.ic_favorite_active_24dp)
-                tvCountLikes.setTextColor(
-                    ContextCompat.getColor(
-                        this.context,
-                        R.color.activeText
-                    )
-                )
+            if (likedByMe) {
+                setActiveLikedByMe()
             } else {
-                btnLike.setImageResource(R.drawable.ic_favorite_inactive_24dp)
-                tvCountLikes.setTextColor(
-                    ContextCompat.getColor(
-                        this.context,
-                        R.color.regularText
-                    )
-                )
+                setInactiveLikedByMe()
             }
 
             if (post.countLikes == 0) {
@@ -119,8 +86,12 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
             )
 
             btnLike.setOnClickListener {
+                if (likedByMe) {
+                    postAdapter.viewModel.likeByMe(post)
+                } else {
+                    postAdapter.viewModel.dislikeByMe(post)
+                }
 
-                postAdapter.viewModel.likeByMe(post)
             }
 
             btnShare.setOnClickListener {
@@ -157,8 +128,68 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
         }
     }
 
-    private fun publishedAgoInMillisToTimeInWords(publishedAgo: Long): String =
-        when (publishedAgo / 1000) {
+    private fun setInactiveLikedByMe() {
+        btnLike.setImageResource(R.drawable.ic_favorite_inactive_24dp)
+        tvCountLikes.setTextColor(
+            ContextCompat.getColor(
+                itemView.context,
+                R.color.regularText
+            )
+        )
+    }
+
+    private fun setActiveLikedByMe() {
+        btnLike.setImageResource(R.drawable.ic_favorite_active_24dp)
+        tvCountLikes.setTextColor(
+            ContextCompat.getColor(
+                itemView.context,
+                R.color.activeText
+            )
+        )
+    }
+
+    private fun setInactiveRepostedByMe() {
+        btnRepost.setImageResource(R.drawable.ic_repost_inactive_24dp)
+        tvCountShares.setTextColor(
+            ContextCompat.getColor(
+                itemView.context,
+                R.color.regularText
+            )
+        )
+    }
+
+    private fun setActiveRepostedByMe() {
+        btnRepost.setImageResource(R.drawable.ic_repost_active_24dp)
+        tvCountShares.setTextColor(
+            ContextCompat.getColor(
+                itemView.context,
+                R.color.activeText
+            )
+        )
+    }
+
+    private fun setInactiveCommentedByMe() {
+        btnComment.setImageResource(R.drawable.ic_comment_inactive_24dp)
+        tvCountComments.setTextColor(
+            ContextCompat.getColor(
+                itemView.context,
+                R.color.regularText
+            )
+        )
+    }
+
+    private fun setActiveCommentedByMe() {
+        btnComment.setImageResource(R.drawable.ic_comment_active_24dp)
+        tvCountComments.setTextColor(
+            ContextCompat.getColor(
+                itemView.context,
+                R.color.activeText
+            )
+        )
+    }
+
+    private fun publishedAgoInMillisToTimeInWords(publishedAgo: Long): String {
+        return when (publishedAgo / 1000) {
             in 0..30 -> "менее минуты назад"
             in 31..90 -> "минуту назад"
             in 91..360 -> "6 минут назад"
@@ -174,4 +205,6 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
             in 32_140_801..64_281_600 -> "год назад"
             else -> "несколько лет назад"
         }
+    }
+
 }

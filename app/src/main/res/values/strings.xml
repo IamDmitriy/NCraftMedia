@@ -4,4 +4,21 @@
     <string name="follow">Перейти</string>
     <string name="message_no_internet_connection">Отсутствует подключение к Интернету</string>
     <string name="repeat">повторить</string>
+    <string name="btn_login">Вход</string>
+    <string name="btn_registration">Регистрация</string>
+    <string name="hint_password">Пароль</string>
+    <string name="hint_login">Имя пользователя</string>
+    <string name="please_wait_message">Пожалуйста, подождите</string>
+    <string name="login_message">Авторизация…</string>
+    <string name="hint_password_confirmation">Подтверждение пароля</string>
+    <string name="registration_message">Регистрация</string>
+    <string name="new_post">Новый пост</string>
+    <string name="input_text_message">Введите текст сообщения</string>
+    <string name="btn_send">Отправить</string>
+    <string name="create_new_post">Создание нового поста</string>
+    <string name="sending_post_message">Отправка сообщения</string>
+    <string name="auth_exception">Ошибка аутентификации</string>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="please_input_text_post">Пожалуйста, введите текст поста!</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
 </resources>
