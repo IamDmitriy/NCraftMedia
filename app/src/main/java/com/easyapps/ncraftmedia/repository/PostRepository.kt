@@ -13,6 +13,5 @@ interface PostRepository {
     fun createRetrofitWithAuth(token: String, userAuth: User)
     suspend fun authenticate(login: String, password: String): Token
     suspend fun register(login: String, password: String): Response<Token>
-    suspend fun create(model: PostModel): PostModel
     suspend fun getUserAuth(): User
 }

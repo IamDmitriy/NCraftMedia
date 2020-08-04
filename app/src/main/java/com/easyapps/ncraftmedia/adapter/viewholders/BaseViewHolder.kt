@@ -28,6 +28,7 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
     private val btnShare = itemView.findViewById<ImageButton>(R.id.btnShare)
     private val btnHide = itemView.findViewById<ImageButton>(R.id.btnHide)
     private val btnRepost = itemView.findViewById<ImageButton>(R.id.btnRepost)
+    private val viewModel = postAdapter.viewModel
 
     abstract fun bind(post: PostModel)
 
@@ -87,11 +88,11 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
 
             btnLike.setOnClickListener {
                 if (likedByMe) {
-                    postAdapter.viewModel.likeByMe(post)
+                    viewModel.dislikeByMe(post)
                 } else {
-                    postAdapter.viewModel.dislikeByMe(post)
+                    viewModel.likeByMe(post)
                 }
-
+                setUpdatingLikeByMe()
             }
 
             btnShare.setOnClickListener {
@@ -128,8 +129,20 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
         }
     }
 
+    private fun setUpdatingLikeByMe() {
+        btnLike.setImageResource(R.drawable.ic_favorite_upd_24dp)
+        btnLike.isEnabled = false
+        tvCountLikes.setTextColor(
+            ContextCompat.getColor(
+                itemView.context,
+                R.color.updText
+            )
+        )
+    }
+
     private fun setInactiveLikedByMe() {
         btnLike.setImageResource(R.drawable.ic_favorite_inactive_24dp)
+        btnLike.isEnabled = true
         tvCountLikes.setTextColor(
             ContextCompat.getColor(
                 itemView.context,
@@ -140,6 +153,7 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
 
     private fun setActiveLikedByMe() {
         btnLike.setImageResource(R.drawable.ic_favorite_active_24dp)
+        btnLike.isEnabled = true
         tvCountLikes.setTextColor(
             ContextCompat.getColor(
                 itemView.context,

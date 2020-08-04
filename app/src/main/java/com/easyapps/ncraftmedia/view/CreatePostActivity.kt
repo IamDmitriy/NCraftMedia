@@ -43,7 +43,7 @@ class CreatePostActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     author = repo.getUserAuth().login
                 )
                 try {
-                    repo.create(newPost)
+                    repo.save(newPost)
                 } catch (e: Exception) {
                     showToast(getString(R.string.something_went_wrong))
                 } finally {

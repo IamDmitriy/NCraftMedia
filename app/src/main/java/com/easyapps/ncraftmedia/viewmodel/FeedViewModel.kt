@@ -11,6 +11,7 @@ import com.easyapps.ncraftmedia.model.PostModel
 import com.easyapps.ncraftmedia.repository.PostRepository
 import com.easyapps.ncraftmedia.service.PostService
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.nio.channels.UnresolvedAddressException
 //TODO SocketTimeoutException
 class FeedViewModel : ViewModel() {
@@ -61,29 +62,27 @@ class FeedViewModel : ViewModel() {
 
     fun likeByMe(post: PostModel) {
         viewModelScope.launch {
-            val likedByMe = !post.likedByMe
-
-            val newPost = if (likedByMe) {
-                post.copy(countLikes = post.countLikes.inc(), likedByMe = likedByMe)
-                postService.likeById(post.id)
-            } else {
-                post.copy(countLikes = post.countLikes.dec(), likedByMe = likedByMe)
-                postService.disLikeById(post.id)
-            }
-
-            updatePost(newPost)
-
             try {
-                repo.save(newPost)
-            } catch (e: UnresolvedAddressException) {
+                val likedPost = postService.likeById(post.id)
+                updatePost(likedPost)
+            } catch (e: IOException) {
                 updatePost(post)
+            } catch (e: AuthException) {
+                _posts.value = UiState.AuthError
             }
         }
     }
 
     fun dislikeByMe(post: PostModel) {
         viewModelScope.launch {
-
+            try {
+                val dislikedPost = postService.dislikeById(post.id)
+                updatePost(dislikedPost)
+            } catch (e: IOException) {
+                updatePost(post)
+            } catch (e: AuthException) {
+                _posts.value = UiState.AuthError
+            }
         }
     }
 

@@ -6,4 +6,5 @@
 
     <color name="activeText">#FF0008</color>
     <color name="regularText">#999999</color>
+    <color name="updText">#00A7A0</color>
 </resources>

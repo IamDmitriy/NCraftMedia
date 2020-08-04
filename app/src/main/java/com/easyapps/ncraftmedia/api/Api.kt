@@ -5,6 +5,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 data class AuthRequestParams(val username: String, val password: String)
 data class RegistrationRequestParams(val username: String, val password: String)
@@ -19,6 +20,9 @@ interface API {
 
     @GET("api/v1/posts")
     suspend fun getAllPosts(): Response<List<PostResponseDto>>
+
+    @GET("api/v1/posts/{id} ")
+    suspend fun getPostById(@Path("id")id: Long): Response<PostResponseDto>
 
     @POST("/api/v1/posts")
     suspend fun createPost(@Body createPostRequest: PostResponseDto): Response<PostResponseDto>

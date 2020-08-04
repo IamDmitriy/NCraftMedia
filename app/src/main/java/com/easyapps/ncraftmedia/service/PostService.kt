@@ -10,17 +10,17 @@ class PostService {
         val oldPost = repo.getById(id)!!
         val newPost = oldPost.copy(
             countLikes = oldPost.countLikes.inc(),
-            likedByMe = true,
+            likedByMe = true, //TODO добавляем авторство пользователя и проверку лайкал ли автор
             author = repo.getUserAuth().login
         )
         return repo.save(newPost)
     }
 
-    suspend fun disLikeById(id: Long): PostModel {
+    suspend fun dislikeById(id: Long): PostModel {
         val oldPost = repo.getById(id)!!
         val newPost = oldPost.copy(
-            countLikes = oldPost.countLikes.inc(),
-            likedByMe = true,
+            countLikes = oldPost.countLikes.dec(),
+            likedByMe = false,
             author = repo.getUserAuth().login
         )
         return repo.save(newPost)

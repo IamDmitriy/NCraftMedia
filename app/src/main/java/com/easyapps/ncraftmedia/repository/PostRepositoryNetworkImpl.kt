@@ -8,6 +8,7 @@ import com.easyapps.ncraftmedia.api.RegistrationRequestParams
 import com.easyapps.ncraftmedia.api.Token
 import com.easyapps.ncraftmedia.dto.PostRequestDto
 import com.easyapps.ncraftmedia.dto.PostResponseDto
+import com.easyapps.ncraftmedia.error.PostNotFoundException
 import com.easyapps.ncraftmedia.model.PostModel
 import com.easyapps.ncraftmedia.model.User
 import io.ktor.client.HttpClient
@@ -104,24 +105,22 @@ class PostRepositoryNetworkImpl : PostRepository {
         } else throw IOException()
     }
 
-    override suspend fun getById(id: Long): PostModel? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override suspend fun getById(id: Long): PostModel {
+        val response = api.getPostById(id)
 
-    override suspend fun save(item: PostModel): PostModel {
-        val postResponseDto = client.post<PostResponseDto> {
-            url(serverUrl)
-            contentType(ContentType.Application.Json)
-            body = PostRequestDto.fromModel(item)
+        if (response.isSuccessful) {
+            val postResponseDto = response.body() ?: throw PostNotFoundException()
+            return PostResponseDto.toModel(postResponseDto)
+        } else {
+            throw Exception()
         }
-        return PostResponseDto.toModel(postResponseDto)
     }
 
     override suspend fun deleteById(id: Long) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun create(model: PostModel): PostModel {
+    override suspend fun save(model: PostModel): PostModel {
         val response = api.createPost(
             PostRequestDto.fromModel(model)
         )
