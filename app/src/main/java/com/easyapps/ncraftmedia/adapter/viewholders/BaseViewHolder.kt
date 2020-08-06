@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.easyapps.ncraftmedia.R
 import com.easyapps.ncraftmedia.adapter.PostAdapter
 import com.easyapps.ncraftmedia.model.PostModel
+import com.easyapps.ncraftmedia.model.PostType
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -124,8 +126,15 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
             }
 
             btnRepost.setOnClickListener {
-                TODO()
+                if (post.type == PostType.REPOST ) {
+                    Toast.makeText(context, "Нельзя репостить репосты!", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                postAdapter.repostsBtnClickListener!!.onRepostsBtnClicked(post)
             }
+
+
         }
     }
 

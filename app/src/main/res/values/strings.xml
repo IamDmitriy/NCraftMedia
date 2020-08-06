@@ -21,4 +21,6 @@
     <string name="welcome">Добро пожаловать!</string>
     <string name="please_input_text_post">Пожалуйста, введите текст поста!</string>
     <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="btn_repost">репост</string>
+    <string name="sending">Отправка</string>
 </resources>

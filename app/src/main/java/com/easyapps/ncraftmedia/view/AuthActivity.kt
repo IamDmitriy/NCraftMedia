@@ -101,8 +101,4 @@ class AuthActivity : AppCompatActivity(R.layout.activity_auth), CoroutineScope b
         progressDialog.hide()
         coroutineContext.cancelChildren()
     }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this@AuthActivity, message, Toast.LENGTH_SHORT).show()
-    }
 }

@@ -8,16 +8,13 @@ import com.easyapps.ncraftmedia.api.RegistrationRequestParams
 import com.easyapps.ncraftmedia.api.Token
 import com.easyapps.ncraftmedia.dto.PostRequestDto
 import com.easyapps.ncraftmedia.dto.PostResponseDto
+import com.easyapps.ncraftmedia.dto.RepostRequestDto
 import com.easyapps.ncraftmedia.error.PostNotFoundException
 import com.easyapps.ncraftmedia.model.PostModel
 import com.easyapps.ncraftmedia.model.User
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.GsonSerializer
 import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.request.post
-import io.ktor.client.request.url
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -130,5 +127,12 @@ class PostRepositoryNetworkImpl : PostRepository {
         } else {
             throw Exception("Ошибка при создании поста")
         }
+    }
+
+    override suspend fun repost(repostedId: Long, content: String): PostModel {
+        val repostRequestDto = RepostRequestDto(content)
+        val response = api.repost(repostedId, repostRequestDto)
+        val postResponseDto = requireNotNull(response.body())
+        return PostResponseDto.toModel(postResponseDto)
     }
 }

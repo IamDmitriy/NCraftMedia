@@ -1,6 +1,7 @@
 package com.easyapps.ncraftmedia.api
 
 import com.easyapps.ncraftmedia.dto.PostResponseDto
+import com.easyapps.ncraftmedia.dto.RepostRequestDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -22,8 +23,12 @@ interface API {
     suspend fun getAllPosts(): Response<List<PostResponseDto>>
 
     @GET("api/v1/posts/{id} ")
-    suspend fun getPostById(@Path("id")id: Long): Response<PostResponseDto>
+    suspend fun getPostById(@Path("id") id: Long): Response<PostResponseDto>
 
     @POST("/api/v1/posts")
     suspend fun createPost(@Body createPostRequest: PostResponseDto): Response<PostResponseDto>
+
+    @POST("/api/v1/posts/{id}/reposts")
+    suspend fun repost(@Path("id") id: Long, @Body repostRequestDto: RepostRequestDto)
+            : Response<PostResponseDto>
 }

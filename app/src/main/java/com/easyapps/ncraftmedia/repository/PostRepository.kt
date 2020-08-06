@@ -14,4 +14,5 @@ interface PostRepository {
     suspend fun authenticate(login: String, password: String): Token
     suspend fun register(login: String, password: String): Response<Token>
     suspend fun getUserAuth(): User
+    suspend fun repost(repostedId: Long, content: String): PostModel
 }

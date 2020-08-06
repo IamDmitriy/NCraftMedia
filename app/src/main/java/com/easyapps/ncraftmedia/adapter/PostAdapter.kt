@@ -25,7 +25,7 @@ fun viewTypeToPostType(viewType: Int): PostType = when (viewType) {
 }
 
 class PostAdapter(val viewModel: FeedViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+    var repostsBtnClickListener: RepostsBtnClickListener? = null
 
     var postList: List<PostModel> = emptyList()
         set(value) {
@@ -73,5 +73,8 @@ class PostAdapter(val viewModel: FeedViewModel) : RecyclerView.Adapter<RecyclerV
         PostType.ADVERTISEMENT -> VIEW_TYPE_ADVERTISEMENT
     }
 
+    interface RepostsBtnClickListener {
+        fun onRepostsBtnClicked(item: PostModel)
+    }
 }
 

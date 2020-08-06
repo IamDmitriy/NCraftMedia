@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.easyapps.ncraftmedia.IS_STARTED_WITH_AUTH_ERROR_KEY
 import com.easyapps.ncraftmedia.R
+import com.easyapps.ncraftmedia.REPOSTED_ID_KEY
 import com.easyapps.ncraftmedia.adapter.PostAdapter
 import com.easyapps.ncraftmedia.adapter.PostDiffUtilCallback
 import com.easyapps.ncraftmedia.model.PostModel
@@ -28,6 +29,11 @@ class FeedActivity : AppCompatActivity() {
         setContentView(R.layout.activity_feed)
 
         postAdapter = PostAdapter(viewModel)
+        postAdapter.repostsBtnClickListener = object: PostAdapter.RepostsBtnClickListener {
+            override fun onRepostsBtnClicked(item: PostModel) {
+                goToRepostActivity(item.id)
+            }
+        }
 
         with(rvContainer) {
             layoutManager = LinearLayoutManager(this@FeedActivity)
@@ -66,10 +72,7 @@ class FeedActivity : AppCompatActivity() {
 
                 is UiState.AuthError -> {
                     Log.d("MyTag", "AuthError in FeedActivity")
-                    val intent = Intent(this, AuthActivity::class.java)
-                    intent.putExtra(IS_STARTED_WITH_AUTH_ERROR_KEY, true)
-                    startActivity(intent)
-                    finish()
+                    goToAuth()
                 }
 
                 is UiState.Success -> {
@@ -91,6 +94,19 @@ class FeedActivity : AppCompatActivity() {
         fab.setOnClickListener {
             startActivity(Intent(this, CreatePostActivity::class.java))
         }
+    }
+
+    private fun goToAuth() {
+        val intent = Intent(this, AuthActivity::class.java)
+        intent.putExtra(IS_STARTED_WITH_AUTH_ERROR_KEY, true)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun goToRepostActivity(repostedId: Long) {
+        val intent = Intent(this, RepostActivity::class.java)
+        intent.putExtra(REPOSTED_ID_KEY, repostedId)
+        startActivity(intent)
     }
 
     private fun setOrUpdateAdapterBy(newList: List<PostModel>) {

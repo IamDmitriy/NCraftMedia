@@ -1,6 +1,7 @@
 package com.easyapps.ncraftmedia.api
 
 import com.easyapps.ncraftmedia.error.AuthException
+import com.easyapps.ncraftmedia.error.PostNotFoundException
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -17,10 +18,17 @@ class InjectAuthTokenInterceptor(val authToken: String) : Interceptor {
 
         val response = chain.proceed(requestWithToken)
 
-        if (response.code == 401) {
-            throw AuthException()
+        if (!response.isSuccessful) {
+            checkResponseCode(response.code)
         }
 
         return response
+    }
+
+    private fun checkResponseCode(code: Int) {
+        when (code) {
+            401 -> throw AuthException()
+            //TODO *** -> throw PostNotFoundException()
+        }
     }
 }
