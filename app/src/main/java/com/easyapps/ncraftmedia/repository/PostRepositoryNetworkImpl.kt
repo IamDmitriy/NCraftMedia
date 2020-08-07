@@ -8,6 +8,7 @@ import com.easyapps.ncraftmedia.api.RegistrationRequestParams
 import com.easyapps.ncraftmedia.api.Token
 import com.easyapps.ncraftmedia.dto.PostRequestDto
 import com.easyapps.ncraftmedia.dto.PostResponseDto
+import com.easyapps.ncraftmedia.dto.PostsCreatedBeforeRequestDto
 import com.easyapps.ncraftmedia.dto.RepostRequestDto
 import com.easyapps.ncraftmedia.error.PostNotFoundException
 import com.easyapps.ncraftmedia.model.PostModel
@@ -26,12 +27,6 @@ const val serverUrl =
     "https://ncraftmedia.herokuapp.com/api/v1/posts"
 
 class PostRepositoryNetworkImpl : PostRepository {
-    private val client = HttpClient {
-        install(JsonFeature) {
-            serializer = GsonSerializer()
-        }
-    }
-
     private var retrofit: Retrofit =
         Retrofit.Builder()
             .baseUrl("https://ncraftmedia.herokuapp.com")
@@ -109,7 +104,7 @@ class PostRepositoryNetworkImpl : PostRepository {
             val postResponseDto = response.body() ?: throw PostNotFoundException()
             return PostResponseDto.toModel(postResponseDto)
         } else {
-            throw Exception()
+            throw Exception() //TODO конкретизировать исключения
         }
     }
 
@@ -134,5 +129,12 @@ class PostRepositoryNetworkImpl : PostRepository {
         val response = api.repost(repostedId, repostRequestDto)
         val postResponseDto = requireNotNull(response.body())
         return PostResponseDto.toModel(postResponseDto)
+    }
+
+    override suspend fun getPostsCreatedBefore(idCurPost: Long, countUploadedPosts: Int): List<PostModel> {
+        val requestData = PostsCreatedBeforeRequestDto(idCurPost, countUploadedPosts)
+        val response = api.getPostsCreatedBefore(requestData)
+        val postResponseDtoList = requireNotNull(response.body())
+        return postResponseDtoList.map(PostResponseDto.Companion::toModel)
     }
 }

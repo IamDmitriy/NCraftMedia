@@ -50,7 +50,6 @@ class FeedActivity : AppCompatActivity() {
                     rvContainer.isVisible = true
 
                     setOrUpdateAdapterBy(state.posts)
-
                 }
 
                 is UiState.EmptyProgress -> {
@@ -83,6 +82,7 @@ class FeedActivity : AppCompatActivity() {
                     rvContainer.isVisible = true
 
                     setOrUpdateAdapterBy(state.posts)
+                    postAdapter.setSuccessfullStateFooter()
                 }
             }
         }

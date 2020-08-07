@@ -1,6 +1,7 @@
 package com.easyapps.ncraftmedia.api
 
 import com.easyapps.ncraftmedia.dto.PostResponseDto
+import com.easyapps.ncraftmedia.dto.PostsCreatedBeforeRequestDto
 import com.easyapps.ncraftmedia.dto.RepostRequestDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -31,4 +32,7 @@ interface API {
     @POST("/api/v1/posts/{id}/reposts")
     suspend fun repost(@Path("id") id: Long, @Body repostRequestDto: RepostRequestDto)
             : Response<PostResponseDto>
+
+    @POST("api/v1/posts/before")
+    suspend fun getPostsCreatedBefore(@Body postsCreatedBeforeRequestDto: PostsCreatedBeforeRequestDto): Response<List<PostResponseDto>>
 }

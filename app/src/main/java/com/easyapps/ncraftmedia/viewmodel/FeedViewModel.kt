@@ -102,4 +102,17 @@ class FeedViewModel : ViewModel() {
         oldList.toMutableList().apply {
             set(indexOfFirst { it.id == newPost.id }, newPost)
         }
+
+    fun loadMore() {
+        viewModelScope.launch {
+            val state = _posts.value
+            if (state is UiState.Success) {
+                val curPosts = state.posts.toMutableList()
+                val idLastPost = curPosts.last().id
+                val oldPosts = repo.getPostsCreatedBefore(idLastPost, 10)
+                curPosts.addAll(oldPosts)
+                _posts.value = state.copy(curPosts)
+            }
+        }
+    }
 }

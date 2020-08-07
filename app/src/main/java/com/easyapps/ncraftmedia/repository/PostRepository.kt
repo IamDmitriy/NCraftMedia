@@ -15,4 +15,5 @@ interface PostRepository {
     suspend fun register(login: String, password: String): Response<Token>
     suspend fun getUserAuth(): User
     suspend fun repost(repostedId: Long, content: String): PostModel
+    suspend fun getPostsCreatedBefore(dateCreationPost: Long, countPosts: Int): List<PostModel>
 }
