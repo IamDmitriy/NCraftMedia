@@ -87,7 +87,7 @@ class FeedActivity : AppCompatActivity() {
             }
         }
 
-        swipeRefreshLayout.setOnRefreshListener(viewModel::updateData)
+        swipeRefreshLayout.setOnRefreshListener(viewModel::loadNew)
         btnRepeat.setOnClickListener {
             viewModel.loadData()
         }
@@ -116,10 +116,4 @@ class FeedActivity : AppCompatActivity() {
         postAdapter.postList = newList
         postDiffResult.dispatchUpdatesTo(postAdapter)
     }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel::updateData
-    }
-
 }

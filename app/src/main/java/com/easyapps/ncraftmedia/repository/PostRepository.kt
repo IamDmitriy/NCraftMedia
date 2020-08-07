@@ -16,4 +16,6 @@ interface PostRepository {
     suspend fun getUserAuth(): User
     suspend fun repost(repostedId: Long, content: String): PostModel
     suspend fun getPostsCreatedBefore(dateCreationPost: Long, countPosts: Int): List<PostModel>
+    suspend fun getPostsAfter(idFirstPost: Long): List<PostModel>
+    suspend fun getRecentPosts(countPosts: Int): List<PostModel>
 }

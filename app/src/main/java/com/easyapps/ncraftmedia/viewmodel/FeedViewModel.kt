@@ -25,13 +25,12 @@ class FeedViewModel : ViewModel() {
         get() = _posts
 
     init {
-        loadData()
+       loadRecent()
     }
 
     fun loadData() {
         viewModelScope.launch {
             _posts.value = UiState.EmptyProgress
-
             tryGetAllPosts()
         }
     }
@@ -113,6 +112,35 @@ class FeedViewModel : ViewModel() {
                 curPosts.addAll(oldPosts)
                 _posts.value = state.copy(curPosts)
             }
+        }
+    }
+
+    fun loadNew() {
+        viewModelScope.launch {
+            val state = _posts.value
+            if (state is UiState.Success) {
+                val curPosts = state.posts.toMutableList()
+                val idLastPost = curPosts.first().id
+                val oldPosts = repo.getPostsAfter(idLastPost)
+                curPosts.addAll(0, oldPosts)
+                _posts.value = state.copy(curPosts)
+            }
+        }
+    }
+
+    fun loadRecent() {
+        viewModelScope.launch {
+            _posts.value = UiState.EmptyProgress
+
+            _posts.value = try {
+                UiState.Success(repo.getRecentPosts(10))
+            } catch (e: UnresolvedAddressException) {
+                UiState.InternetAccessError
+            } catch (e: AuthException) {
+                Log.d("MyTag", "AuthException in FeedViewModel")
+                UiState.AuthError
+            }
+
         }
     }
 }

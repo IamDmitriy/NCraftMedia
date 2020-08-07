@@ -14,13 +14,13 @@ class PostDiffUtilCallback(
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldPost: PostModel = oldList[oldItemPosition]
-        val newPost: PostModel = oldList[newItemPosition]
+        val newPost: PostModel = newList[newItemPosition]
         return oldPost.id == newPost.id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldPost: PostModel = oldList[oldItemPosition]
-        val newPost: PostModel = oldList[newItemPosition]
+        val newPost: PostModel = newList[newItemPosition]
         return (
                 oldPost.author == newPost.author &&
                         oldPost.content == newPost.content &&

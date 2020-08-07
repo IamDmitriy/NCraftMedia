@@ -35,4 +35,10 @@ interface API {
 
     @POST("api/v1/posts/before")
     suspend fun getPostsCreatedBefore(@Body postsCreatedBeforeRequestDto: PostsCreatedBeforeRequestDto): Response<List<PostResponseDto>>
+
+    @GET("api/v1/posts/{id}/after")
+    suspend fun getPostsAfter(@Path("id") idFirstPost: Long): Response<List<PostResponseDto>>
+
+    @GET("api/v1/posts/{count}/recent/")
+    suspend fun getRecentPosts(@Path("count")countPosts: Int): Response<List<PostResponseDto>>
 }

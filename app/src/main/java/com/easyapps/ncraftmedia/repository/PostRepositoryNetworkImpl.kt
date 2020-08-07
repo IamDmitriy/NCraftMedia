@@ -137,4 +137,16 @@ class PostRepositoryNetworkImpl : PostRepository {
         val postResponseDtoList = requireNotNull(response.body())
         return postResponseDtoList.map(PostResponseDto.Companion::toModel)
     }
+
+    override suspend fun getPostsAfter(idFirstPost: Long): List<PostModel> {
+        val response = api.getPostsAfter(idFirstPost)
+        val postResponseDtoList = requireNotNull(response.body())
+        return postResponseDtoList.map(PostResponseDto.Companion::toModel)
+    }
+
+    override suspend fun getRecentPosts(countPosts: Int): List<PostModel> {
+        val response = api.getRecentPosts(countPosts)
+        val postResponseDtoList = requireNotNull(response.body())
+        return postResponseDtoList.map(PostResponseDto.Companion::toModel)
+    }
 }
