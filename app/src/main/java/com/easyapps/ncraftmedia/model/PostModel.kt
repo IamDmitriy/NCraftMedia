@@ -16,5 +16,6 @@ data class PostModel(
     val source: PostModel? = null,
     val address: String? = null,
     val location: Location? = null,
-    val link: String? = null
+    val link: String? = null,
+    val attachment: AttachmentModel? = null
 )
