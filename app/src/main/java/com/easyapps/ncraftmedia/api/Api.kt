@@ -3,11 +3,10 @@ package com.easyapps.ncraftmedia.api
 import com.easyapps.ncraftmedia.dto.PostResponseDto
 import com.easyapps.ncraftmedia.dto.PostsCreatedBeforeRequestDto
 import com.easyapps.ncraftmedia.dto.RepostRequestDto
+import com.easyapps.ncraftmedia.model.AttachmentModel
+import okhttp3.MultipartBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 data class AuthRequestParams(val username: String, val password: String)
 data class RegistrationRequestParams(val username: String, val password: String)
@@ -41,4 +40,8 @@ interface API {
 
     @GET("api/v1/posts/{count}/recent/")
     suspend fun getRecentPosts(@Path("count")countPosts: Int): Response<List<PostResponseDto>>
+
+    @Multipart
+    @POST("api/v1/media")
+    suspend fun uploadImage(@Part file: MultipartBody.Part): Response<AttachmentModel>
 }

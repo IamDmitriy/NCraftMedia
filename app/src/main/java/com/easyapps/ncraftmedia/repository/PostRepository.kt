@@ -1,6 +1,8 @@
 package com.easyapps.ncraftmedia.repository
 
+import android.graphics.Bitmap
 import com.easyapps.ncraftmedia.api.Token
+import com.easyapps.ncraftmedia.model.AttachmentModel
 import com.easyapps.ncraftmedia.model.PostModel
 import com.easyapps.ncraftmedia.model.User
 import retrofit2.Response
@@ -18,4 +20,5 @@ interface PostRepository {
     suspend fun getPostsCreatedBefore(dateCreationPost: Long, countPosts: Int): List<PostModel>
     suspend fun getPostsAfter(idFirstPost: Long): List<PostModel>
     suspend fun getRecentPosts(countPosts: Int): List<PostModel>
+    suspend fun upload(bitmap: Bitmap): AttachmentModel
 }

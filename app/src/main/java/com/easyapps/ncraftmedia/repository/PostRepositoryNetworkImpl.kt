@@ -1,35 +1,35 @@
 package com.easyapps.ncraftmedia.repository
 
-import com.easyapps.ncraftmedia.error.AuthException
-import com.easyapps.ncraftmedia.api.InjectAuthTokenInterceptor
-import com.easyapps.ncraftmedia.api.API
-import com.easyapps.ncraftmedia.api.AuthRequestParams
-import com.easyapps.ncraftmedia.api.RegistrationRequestParams
-import com.easyapps.ncraftmedia.api.Token
+import android.graphics.Bitmap
+import com.easyapps.ncraftmedia.api.*
 import com.easyapps.ncraftmedia.dto.PostRequestDto
 import com.easyapps.ncraftmedia.dto.PostResponseDto
 import com.easyapps.ncraftmedia.dto.PostsCreatedBeforeRequestDto
 import com.easyapps.ncraftmedia.dto.RepostRequestDto
+import com.easyapps.ncraftmedia.error.AuthException
 import com.easyapps.ncraftmedia.error.PostNotFoundException
+import com.easyapps.ncraftmedia.model.AttachmentModel
 import com.easyapps.ncraftmedia.model.PostModel
 import com.easyapps.ncraftmedia.model.User
-import io.ktor.client.HttpClient
-import io.ktor.client.features.json.GsonSerializer
-import io.ktor.client.features.json.JsonFeature
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 
-const val serverUrl =
-    "https://ncraftmedia.herokuapp.com/api/v1/posts"
+const val baseUrl =
+    "https://ncraftmedia.herokuapp.com"
 
 class PostRepositoryNetworkImpl : PostRepository {
     private var retrofit: Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://ncraftmedia.herokuapp.com")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -79,7 +79,7 @@ class PostRepositoryNetworkImpl : PostRepository {
 
         retrofit = Retrofit.Builder()
             .client(client)
-            .baseUrl("https://ncraftmedia.herokuapp.com")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -131,7 +131,10 @@ class PostRepositoryNetworkImpl : PostRepository {
         return PostResponseDto.toModel(postResponseDto)
     }
 
-    override suspend fun getPostsCreatedBefore(idCurPost: Long, countUploadedPosts: Int): List<PostModel> {
+    override suspend fun getPostsCreatedBefore(
+        idCurPost: Long,
+        countUploadedPosts: Int
+    ): List<PostModel> {
         val requestData = PostsCreatedBeforeRequestDto(idCurPost, countUploadedPosts)
         val response = api.getPostsCreatedBefore(requestData)
         val postResponseDtoList = requireNotNull(response.body())
@@ -148,5 +151,17 @@ class PostRepositoryNetworkImpl : PostRepository {
         val response = api.getRecentPosts(countPosts)
         val postResponseDtoList = requireNotNull(response.body())
         return postResponseDtoList.map(PostResponseDto.Companion::toModel)
+    }
+
+    override suspend fun upload(bitmap: Bitmap): AttachmentModel {
+        val bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        val reqFIle = RequestBody.create(
+            MediaType.let { "image/jpeg".toMediaTypeOrNull() },
+            bos.toByteArray()
+        )
+        val body = MultipartBody.Part.createFormData("file", "image.jpg", reqFIle)
+        val response = api.uploadImage(body)
+        return response.body()!!
     }
 }

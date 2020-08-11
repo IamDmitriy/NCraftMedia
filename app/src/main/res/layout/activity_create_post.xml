@@ -15,6 +15,16 @@
         android:inputType="textMultiLine|textCapSentences"
         android:minHeight="250dp" />
 
+    <ImageButton
+        android:id="@+id/btnAttachPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_attach_a_photo_48dp"
+        android:background="@android:color/transparent"
+        android:layout_margin="20dp"
+        />
+
     <Button
         android:id="@+id/btnSend"
         android:layout_width="match_parent"
