@@ -2,10 +2,7 @@ package com.easyapps.ncraftmedia.repository
 
 import android.graphics.Bitmap
 import com.easyapps.ncraftmedia.api.*
-import com.easyapps.ncraftmedia.dto.PostRequestDto
-import com.easyapps.ncraftmedia.dto.PostResponseDto
-import com.easyapps.ncraftmedia.dto.PostsCreatedBeforeRequestDto
-import com.easyapps.ncraftmedia.dto.RepostRequestDto
+import com.easyapps.ncraftmedia.dto.*
 import com.easyapps.ncraftmedia.error.AuthException
 import com.easyapps.ncraftmedia.error.PostNotFoundException
 import com.easyapps.ncraftmedia.model.AttachmentModel
@@ -113,7 +110,7 @@ class PostRepositoryNetworkImpl : PostRepository {
     }
 
     override suspend fun save(model: PostModel): PostModel {
-        val response = api.createPost(
+        val response = api.savePost(
             PostRequestDto.fromModel(model)
         )
 
@@ -163,5 +160,10 @@ class PostRepositoryNetworkImpl : PostRepository {
         val body = MultipartBody.Part.createFormData("file", "image.jpg", reqFIle)
         val response = api.uploadImage(body)
         return response.body()!!
+    }
+
+    override suspend fun createPost(content: String, attachment: AttachmentModel?): PostModel {
+        val response = api.createPost(CreatePostRequestDto(content, attachment))
+        return PostResponseDto.toModel(response.body()!!)
     }
 }

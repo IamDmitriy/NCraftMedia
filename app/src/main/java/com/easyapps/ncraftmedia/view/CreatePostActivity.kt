@@ -35,7 +35,6 @@ class CreatePostActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
 
         btnSend.setOnClickListener {
-
             val content = etContent.text.toString()
             if (content.isEmpty()) {
                 showToast(getString(R.string.please_input_text_post))
@@ -44,20 +43,8 @@ class CreatePostActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
             launch {
                 progressDialog.show()
-
-                val newPost = PostModel(
-                    content = content,
-                    created = System.currentTimeMillis(),
-                    author = repo.getUserAuth().login
-                )
-                try {
-                    repo.save(newPost)
-                } catch (e: Exception) {
-                    showToast(getString(R.string.something_went_wrong))
-                } finally {
-                    progressDialog.hide()
-                }
-
+                repo.createPost(content = content, attachment = attachmentModel)
+                progressDialog.hide()
                 finish()
             }
         }
@@ -92,7 +79,6 @@ class CreatePostActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
 
             launch {
-                //TODO реализовать что-то вроде ProgressDialog
                 attachmentModel = repo.upload(imageBitmap)
                 setUploadedStatusBtnAttachPhoto()
             }

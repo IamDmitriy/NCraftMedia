@@ -23,7 +23,7 @@ data class PostRequestDto(
     val link: String? = null
 ) {
     companion object {
-        fun fromModel(model: PostModel) = PostResponseDto(
+        fun fromModel(model: PostModel) = PostRequestDto(
             id = model.id,
             author = model.author,
             content = model.content,

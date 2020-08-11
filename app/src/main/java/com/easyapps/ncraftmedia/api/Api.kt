@@ -1,8 +1,6 @@
 package com.easyapps.ncraftmedia.api
 
-import com.easyapps.ncraftmedia.dto.PostResponseDto
-import com.easyapps.ncraftmedia.dto.PostsCreatedBeforeRequestDto
-import com.easyapps.ncraftmedia.dto.RepostRequestDto
+import com.easyapps.ncraftmedia.dto.*
 import com.easyapps.ncraftmedia.model.AttachmentModel
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -26,7 +24,10 @@ interface API {
     suspend fun getPostById(@Path("id") id: Long): Response<PostResponseDto>
 
     @POST("/api/v1/posts")
-    suspend fun createPost(@Body createPostRequest: PostResponseDto): Response<PostResponseDto>
+    suspend fun savePost(@Body postRequestDto: PostRequestDto): Response<PostResponseDto>
+
+    @POST("/api/v1/posts/create")
+    suspend fun createPost(@Body createPostRequestDto: CreatePostRequestDto): Response<PostResponseDto>
 
     @POST("/api/v1/posts/{id}/reposts")
     suspend fun repost(@Path("id") id: Long, @Body repostRequestDto: RepostRequestDto)
