@@ -3,13 +3,14 @@ package com.easyapps.ncraftmedia.adapter.viewholders
 import android.content.Intent
 import android.util.Log
 import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.easyapps.ncraftmedia.R
 import com.easyapps.ncraftmedia.adapter.PostAdapter
+import com.easyapps.ncraftmedia.model.AttachmentType
 import com.easyapps.ncraftmedia.model.PostModel
 import com.easyapps.ncraftmedia.model.PostType
 import java.text.SimpleDateFormat
@@ -30,7 +31,11 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
     private val btnShare = itemView.findViewById<ImageButton>(R.id.btnShare)
     private val btnHide = itemView.findViewById<ImageButton>(R.id.btnHide)
     private val btnRepost = itemView.findViewById<ImageButton>(R.id.btnRepost)
+    private val imgvPhoto = itemView.findViewById<ImageView>(R.id.imgvPhoto)
+    private val attachmentContainer = itemView.findViewById<FrameLayout>(R.id.attachmentContainer)
+
     private val viewModel = postAdapter.viewModel
+
 
     abstract fun bind(post: PostModel)
 
@@ -41,6 +46,21 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
             tvCountLikes.text = post.countLikes.toString()
             tvCountComments.text = post.countComments.toString()
             tvCountShares.text = post.countShares.toString()
+            tvCreated.text = publishedAgoInMillisToTimeInWords(
+                System.currentTimeMillis() - post.created
+            )
+
+            when(post.attachment?.type) {
+                AttachmentType.IMAGE -> {
+                    loadAndShowImage(imgvPhoto, post.attachment.id)
+                    imgvPhoto.isVisible = true
+                    attachmentContainer.isVisible = true
+                }
+                else -> {
+                    imgvPhoto.isVisible = false
+                    attachmentContainer.isVisible = false
+                }
+            }
 
             //TODO реализовать проверку авторства из списка для какого либо действия
             // и установку флагов someActionByMe
@@ -83,10 +103,6 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
             } else {
                 tvCountShares.visibility = View.VISIBLE
             }
-
-            tvCreated.text = publishedAgoInMillisToTimeInWords(
-                System.currentTimeMillis() - post.created
-            )
 
             btnLike.setOnClickListener {
                 if (likedByMe) {
@@ -133,9 +149,15 @@ abstract class BaseViewHolder(val postAdapter: PostAdapter, view: View) :
 
                 postAdapter.repostsBtnClickListener!!.onRepostsBtnClicked(post)
             }
-
-
         }
+    }
+
+    private fun loadAndShowImage(imgv: ImageView, attachmentId: String) {
+        val url = viewModel.getUrlByAttachmentId(attachmentId)
+
+        Glide.with(imgv.context)
+            .load(url)
+            .into(imgv)
     }
 
     private fun setUpdatingLikeByMe() {

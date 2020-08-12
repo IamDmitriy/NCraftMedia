@@ -70,21 +70,25 @@
             tools:visibility="visible" />
 
         <FrameLayout
-            android:id="@+id/mediaContainer"
+            android:id="@+id/attachmentContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imgvVideo">
+            app:layout_constraintTop_toBottomOf="@id/imgvVideo"
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/imgvPhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+                android:visibility="gone"
                 app:layout_constraintHeight_max="400dp"
-                tools:src="@drawable/ic_photo_example_48dp" />
+                tools:src="@drawable/ic_photo_example_48dp"
+                tools:visibility="visible" />
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,7 +99,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mediaContainer">
+            app:layout_constraintTop_toBottomOf="@+id/attachmentContainer">
 
             <ImageButton
                 android:id="@+id/btnFollow"

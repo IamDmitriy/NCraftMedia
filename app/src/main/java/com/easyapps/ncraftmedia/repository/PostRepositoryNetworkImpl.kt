@@ -166,4 +166,8 @@ class PostRepositoryNetworkImpl : PostRepository {
         val response = api.createPost(CreatePostRequestDto(content, attachment))
         return PostResponseDto.toModel(response.body()!!)
     }
+
+    override fun getUrlByAttachmentId(attachmentId: String): String {
+        return "$baseUrl/api/v1/static/$attachmentId"
+    }
 }

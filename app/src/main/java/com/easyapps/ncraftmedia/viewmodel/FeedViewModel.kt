@@ -143,4 +143,8 @@ class FeedViewModel : ViewModel() {
 
         }
     }
+
+    fun getUrlByAttachmentId(attachmentId: String): String {
+        return repo.getUrlByAttachmentId(attachmentId)
+    }
 }

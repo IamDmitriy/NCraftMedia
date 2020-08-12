@@ -22,4 +22,5 @@ interface PostRepository {
     suspend fun getRecentPosts(countPosts: Int): List<PostModel>
     suspend fun upload(bitmap: Bitmap): AttachmentModel
     suspend fun createPost(content: String, attachment: AttachmentModel?): PostModel
+    fun getUrlByAttachmentId(attachmentId: String): String
 }
