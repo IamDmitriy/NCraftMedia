@@ -71,9 +71,9 @@
 
         <FrameLayout
             android:id="@+id/attachmentContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+android:layout_marginTop="8dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,12 +83,11 @@
             <ImageView
                 android:id="@+id/imgvPhoto"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
+                android:layout_height="match_parent"
                 android:visibility="gone"
-                app:layout_constraintHeight_max="400dp"
                 tools:src="@drawable/ic_photo_example_48dp"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                android:layout_gravity="center"/>
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

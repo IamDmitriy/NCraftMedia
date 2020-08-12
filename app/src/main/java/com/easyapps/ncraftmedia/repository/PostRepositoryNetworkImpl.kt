@@ -159,7 +159,7 @@ class PostRepositoryNetworkImpl : PostRepository {
         )
         val body = MultipartBody.Part.createFormData("file", "image.jpg", reqFIle)
         val response = api.uploadImage(body)
-        return response.body()!!
+        return AttachmentResponseDto.toModel(response.body()!!)
     }
 
     override suspend fun createPost(content: String, attachment: AttachmentModel?): PostModel {

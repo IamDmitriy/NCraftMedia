@@ -44,5 +44,5 @@ interface API {
 
     @Multipart
     @POST("api/v1/media")
-    suspend fun uploadImage(@Part file: MultipartBody.Part): Response<AttachmentModel>
+    suspend fun uploadImage(@Part file: MultipartBody.Part): Response<AttachmentResponseDto>
 }
