@@ -11,12 +11,12 @@ fun isValidLogin(login: String) =
 
 fun isFirstUse(context: Context): Boolean {
     return context.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE)
-        .getBoolean(IS_FIRST_USE_KEY, true)
+        .getLong(LAST_TIME_VISIT_SHARED_KEY, 0) == 0L
 }
 
-fun setNotFirstUse(context: Context) {
+fun setNowLastVisitTime(context: Context) {
     context.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE)
         .edit()
-        .putBoolean(IS_FIRST_USE_KEY, false)
+        .putLong(LAST_TIME_VISIT_SHARED_KEY, System.currentTimeMillis())
         .apply()
 }

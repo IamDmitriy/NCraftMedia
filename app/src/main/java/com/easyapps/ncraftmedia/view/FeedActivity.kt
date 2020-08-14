@@ -9,6 +9,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.easyapps.ncraftmedia.*
 import com.easyapps.ncraftmedia.adapter.PostAdapter
 import com.easyapps.ncraftmedia.adapter.PostDiffUtilCallback
@@ -16,18 +19,20 @@ import com.easyapps.ncraftmedia.model.PostModel
 import com.easyapps.ncraftmedia.viewmodel.FeedViewModel
 import com.easyapps.ncraftmedia.viewmodel.UiState
 import kotlinx.android.synthetic.main.activity_feed.*
+import java.util.concurrent.TimeUnit
 
 class FeedActivity : AppCompatActivity() {
     private val viewModel: FeedViewModel by viewModels()
     private lateinit var postAdapter: PostAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed)
 
+        scheduleJob()
+
         postAdapter = PostAdapter(viewModel)
-        postAdapter.repostsBtnClickListener = object: PostAdapter.RepostsBtnClickListener {
+        postAdapter.repostsBtnClickListener = object : PostAdapter.RepostsBtnClickListener {
             override fun onRepostsBtnClicked(item: PostModel) {
                 goToRepostActivity(item.id)
             }
@@ -94,6 +99,20 @@ class FeedActivity : AppCompatActivity() {
         }
     }
 
+    private fun scheduleJob() {
+        val checkWork = PeriodicWorkRequestBuilder<UserNotHereWorker>(
+            SHOW_NOTIFICATION_AFTER_UNVISITED_MS, TimeUnit.MILLISECONDS
+        )
+            .build()
+
+        WorkManager.getInstance(this)
+            .enqueueUniquePeriodicWork(
+                "user_present_work",
+                ExistingPeriodicWorkPolicy.KEEP,
+                checkWork
+            )
+    }
+
     private fun goToAuth() {
         val intent = Intent(this, AuthActivity::class.java)
         intent.putExtra(IS_STARTED_WITH_AUTH_ERROR_KEY, true)
@@ -119,7 +138,7 @@ class FeedActivity : AppCompatActivity() {
         super.onDestroy()
         if (isFirstUse(this)) {
             NotificationHelper.comeBack(this)
-            setNotFirstUse(this)
         }
+        setNowLastVisitTime(this)
     }
 }
