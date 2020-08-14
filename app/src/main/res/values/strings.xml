@@ -23,4 +23,7 @@
     <string name="something_went_wrong">Что-то пошло не так</string>
     <string name="btn_repost">репост</string>
     <string name="sending">Отправка</string>
+    <string name="did_you_like_our_application">Понравилось ли вам наше приложение?</string>
+    <string name="attachment_uploaded">Вложение загружено</string>
+    <string name="come_back_please_message">Дорогой пользователь, возвращайтесь к нам скорее!</string>
 </resources>

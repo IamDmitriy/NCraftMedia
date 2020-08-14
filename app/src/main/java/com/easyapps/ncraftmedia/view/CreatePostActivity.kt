@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import com.easyapps.ncraftmedia.App
-import com.easyapps.ncraftmedia.NotifictionHelper
+import com.easyapps.ncraftmedia.NotificationHelper
 import com.easyapps.ncraftmedia.R
 import com.easyapps.ncraftmedia.model.AttachmentModel
 import com.easyapps.ncraftmedia.showToast
@@ -99,7 +99,7 @@ class CreatePostActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
         btnSend.isEnabled = true
 
-        NotifictionHelper.attachmentUploaded(attachmentModel!!.type, this)
+        NotificationHelper.attachmentUploaded(attachmentModel!!.type, this)
     }
 
 }

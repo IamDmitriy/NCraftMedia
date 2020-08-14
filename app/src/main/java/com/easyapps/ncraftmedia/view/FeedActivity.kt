@@ -9,9 +9,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.easyapps.ncraftmedia.IS_STARTED_WITH_AUTH_ERROR_KEY
-import com.easyapps.ncraftmedia.R
-import com.easyapps.ncraftmedia.REPOSTED_ID_KEY
+import com.easyapps.ncraftmedia.*
 import com.easyapps.ncraftmedia.adapter.PostAdapter
 import com.easyapps.ncraftmedia.adapter.PostDiffUtilCallback
 import com.easyapps.ncraftmedia.model.PostModel
@@ -115,5 +113,13 @@ class FeedActivity : AppCompatActivity() {
         val postDiffResult = DiffUtil.calculateDiff(postDiffUtilCallback)
         postAdapter.postList = newList
         postDiffResult.dispatchUpdatesTo(postAdapter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFirstUse(this)) {
+            NotificationHelper.comeBack(this)
+            setNotFirstUse(this)
+        }
     }
 }
