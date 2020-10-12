@@ -26,4 +26,5 @@
     <string name="did_you_like_our_application">Понравилось ли вам наше приложение?</string>
     <string name="attachment_uploaded">Вложение загружено</string>
     <string name="come_back_please_message">Дорогой пользователь, возвращайтесь к нам скорее!</string>
+    <string name="google_play_unavailable">Google Play недоступен</string>
 </resources>

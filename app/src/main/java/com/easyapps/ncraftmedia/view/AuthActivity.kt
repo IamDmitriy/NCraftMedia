@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.easyapps.ncraftmedia.*
 import com.easyapps.ncraftmedia.error.AuthException
 import com.easyapps.ncraftmedia.model.User
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -26,6 +28,8 @@ class AuthActivity : AppCompatActivity(R.layout.activity_auth), CoroutineScope b
         super.onCreate(savedInstanceState)
 
         init()
+
+        requestToken()
 
         if (isAuthenticated()) {
             repo.createRetrofitWithAuth(
@@ -74,6 +78,30 @@ class AuthActivity : AppCompatActivity(R.layout.activity_auth), CoroutineScope b
             startActivity(
                 Intent(this@AuthActivity, RegistrationActivity::class.java)
             )
+        }
+    }
+
+    private fun requestToken() {
+        with(GoogleApiAvailability.getInstance()) {
+            val code = isGooglePlayServicesAvailable(this@AuthActivity)
+            if (code == ConnectionResult.SUCCESS) {
+                return@with
+            }
+
+            if (isUserResolvableError(code)) {
+                getErrorDialog(this@AuthActivity, code, 9000).show()
+                return
+            }
+
+            showToast(getString(R.string.google_play_unavailable))
+        }
+
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+            launch {
+                println(it.token)
+                    // TODO:
+                    // Repository.registerPushToken(it.token)
+            }
         }
     }
 

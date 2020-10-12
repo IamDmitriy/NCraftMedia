@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "970801807486",
+    "firebase_url": "https://ncraftmedia-e4f18.firebaseio.com",
+    "project_id": "ncraftmedia-e4f18",
+    "storage_bucket": "ncraftmedia-e4f18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970801807486:android:2665ed298e59a1fe41982f",
+        "android_client_info": {
+          "package_name": "com.easyapps.ncraftmedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970801807486-ijdgtj09la9bli81knm1fquat7baiht8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWRp8qwTWINFbNE2gIg2513B8kNvrZw6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970801807486-ijdgtj09la9bli81knm1fquat7baiht8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
