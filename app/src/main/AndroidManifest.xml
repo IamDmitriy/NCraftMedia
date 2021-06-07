@@ -43,6 +43,11 @@
             </intent-filter>
 
         </service>
+
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="104474173"
+            />
     </application>
 
 </manifest>

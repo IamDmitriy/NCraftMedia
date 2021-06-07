@@ -1,10 +1,8 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.huawei.agconnect'
 
 android {
     compileSdkVersion 29
@@ -17,10 +15,27 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        releaseKey {
+            storeFile file("../keystores/KeyStoreTestHuaweiPush.jks")
+            storePassword "123456"
+            keyAlias "key"
+            keyPassword "123456"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseKey
+        }
+        debug {
+            // по гайду на пуши дебаг версию так же надо подписать
+            signingConfig signingConfigs.releaseKey
         }
     }
 
@@ -115,5 +130,8 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:2.2.0"
 
     implementation 'com.google.firebase:firebase-messaging:20.3.0'
+
+    // Huawei push notification
+    implementation 'com.huawei.hms:push:5.3.0.301'
 
 }
